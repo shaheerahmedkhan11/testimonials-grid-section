@@ -135,6 +135,11 @@ main {
     background-color: var(--Dark-Blue);
 }
 
+h1 {
+    position:absolute;
+    left:-9999px;
+}
+
 /* RESPONSIVE DESIGN */
 @media (max-width: 1024px) {
     body {
