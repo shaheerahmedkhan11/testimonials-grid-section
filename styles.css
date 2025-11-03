@@ -1,0 +1,167 @@
+/* GLOBAL RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* VARIABLES */
+:root {
+    /* COLORS */
+    --Purple-Light: hsl(260, 100%, 95%);
+    --Purple-Medium: hsl(264, 82%, 80%);
+    --Purple-Dark: hsl(263, 55%, 52%);
+    --White: hsl(0, 0%, 100%);
+    --Gray-Extra-Light: hsl(214, 17%, 92%);
+    --Grey-Light: hsl(0, 0%, 81%);
+    --Grey-Medium: hsl(224, 10%, 45%);
+    --Grey-Dark: hsl(217, 19%, 35%);
+    --Dark-Blue: hsl(219, 29%, 14%);
+    --Black: hsl(0, 0%, 7%);
+
+    /* TYPOGRAPHY */
+    --Font-Family: 'Barlow Semi Condensed', sans-serif;
+    --Font-Body: 1rem;
+    --FW-L: 500;
+    --FW-B: 600;
+}
+
+/* GENERAL STYLES */
+body {
+    min-height: 100vh;
+    font-family: var(--Font-Family);
+    font-size: var(--Font-Body);
+    background-color: var(--Gray-Extra-Light);
+    padding: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* GRID LAYOUT */
+main {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    grid-template-areas:
+        "top-left top-left top-center right"
+        "bottom-left bottom-center bottom-center right";
+}
+
+/* CARD BASE STYLE */
+.card {
+    color: var(--White);
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: var(--White);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+}
+
+/* CARD INTERACTIVITY */
+.card:hover {
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+    transform: translateY(-5px);
+}
+
+.card:active {
+    transform: translateY(0);
+    transition-duration: 0.2s;
+}
+
+.card:focus-visible {
+    outline: 3px solid var(--Purple-Medium);
+    outline-offset: 4px;
+}
+
+/* CARD CONTENT */
+.card img {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+}
+
+.card-head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.card-title {
+    display: flex;
+    flex-direction: column;
+}
+
+.qualification {
+    font-size: 0.8rem;
+}
+
+.headline {
+    font-weight: var(--FW-B);
+}
+
+.description {
+    font-size: 0.85rem;
+}
+
+/* CARD COLORS BY AREA */
+.card:nth-child(1) {
+    grid-area: top-left;
+    background-color: var(--Purple-Dark);
+}
+
+.card:nth-child(2) {
+    grid-area: top-center;
+    background-color: var(--Grey-Dark);
+}
+
+.card:nth-child(3) {
+    grid-area: right;
+    color: var(--Grey-Dark);
+}
+
+.card:nth-child(4) {
+    grid-area: bottom-left;
+    color: var(--Grey-Dark);
+}
+
+.card:nth-child(5) {
+    grid-area: bottom-center;
+    background-color: var(--Dark-Blue);
+}
+
+/* RESPONSIVE DESIGN */
+@media (max-width: 1024px) {
+    body {
+        padding: 3rem;
+    }
+
+    main {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-areas:
+            "top-left top-center"
+            "right right"
+            "bottom-left bottom-center";
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 2rem;
+    }
+
+    main {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "top-left"
+            "top-center"
+            "right"
+            "bottom-left"
+            "bottom-center";
+    }
+}
