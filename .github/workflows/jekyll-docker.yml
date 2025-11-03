@@ -1,20 +1,39 @@
-name: Jekyll site CI
+name: Build and Deploy Jekyll site (main branch root)
 
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: write  # Required to push back to the same branch
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Build the site in the jekyll/builder container
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Build site using Jekyll Docker image
       run: |
         docker run \
-        -v ${{ github.workspace }}:/srv/jekyll -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
-        jekyll/builder:latest /bin/bash -c "chmod -R 777 /srv/jekyll && jekyll build --future"
+          -v ${{ github.workspace }}:/srv/jekyll \
+          -v ${{ github.workspace }}/_site:/srv/jekyll/_site \
+          jekyll/builder:latest /bin/bash -c \
+          "chmod -R 777 /srv/jekyll && jekyll build --future"
+
+    - name: Copy built site into root
+      run: |
+        shopt -s extglob
+        rm -rf !(._site|.git|.github)
+        cp -r _site/* .
+        rm -rf _site
+
+    - name: Commit and push changes
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git add -A
+        git commit -m "Deploy built site" || echo "No changes to commit"
+        git push
